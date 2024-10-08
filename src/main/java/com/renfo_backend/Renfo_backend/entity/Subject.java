@@ -19,7 +19,7 @@ public class Subject implements java.io.Serializable {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjects")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
     private List<Lesson> lessons;
 
     public Subject(Long id, String name) {
