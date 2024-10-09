@@ -18,12 +18,15 @@ import com.renfo_backend.Renfo_backend.dto.course.CourseDtoMapper;
 import com.renfo_backend.Renfo_backend.dto.grade.GradeDto;
 import com.renfo_backend.Renfo_backend.dto.grade.GradeDtoMapper;
 import com.renfo_backend.Renfo_backend.dto.grade.GradeWithStudentsDto;
+import com.renfo_backend.Renfo_backend.dto.lesson.LessonDto;
+import com.renfo_backend.Renfo_backend.dto.lesson.LessonDtoMapper;
 import com.renfo_backend.Renfo_backend.dto.student.StudentDto;
 import com.renfo_backend.Renfo_backend.dto.student.StudentDtoMapper;
 import com.renfo_backend.Renfo_backend.entity.Grade;
 import com.renfo_backend.Renfo_backend.exceptions.GradeNotFoundException;
 import com.renfo_backend.Renfo_backend.repository.CourseRepository;
 import com.renfo_backend.Renfo_backend.repository.GradeRepository;
+import com.renfo_backend.Renfo_backend.repository.LessonRepository;
 import com.renfo_backend.Renfo_backend.repository.StudentRepository;
 
 @RestController
@@ -32,12 +35,14 @@ public class GradeController {
     private final GradeRepository repository;
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
+    private final LessonRepository lessonRepository;
 
     public GradeController(GradeRepository repository, CourseRepository courseRepository,
-            StudentRepository studentRepository) {
+            StudentRepository studentRepository, LessonRepository lessonRepository) {
         this.repository = repository;
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     @GetMapping
@@ -68,6 +73,11 @@ public class GradeController {
     @GetMapping("/{id}/students")
     public List<StudentDto> getStudents(@PathVariable Long id) {
         return studentRepository.findByGradeId(id).stream().map(StudentDtoMapper::toDto).toList();
+    }
+
+    @GetMapping("/{id}/lectures")
+    public List<LessonDto> getLectures(@PathVariable Long id) {
+        return lessonRepository.findByCourseGradeId(id).stream().map(LessonDtoMapper::toDto).toList();
     }
 
     @PutMapping("/{id}")
