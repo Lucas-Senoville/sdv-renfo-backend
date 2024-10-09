@@ -1,75 +1,40 @@
 package com.renfo_backend.Renfo_backend.entity;
 
-import com.renfo_backend.Renfo_backend.dto.CreateTeacherDto;
-import jakarta.persistence.*;
+import java.util.Set;
 
-import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
-public class Teacher {
-    private @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-
-    @Column(nullable = false)
-    private String firstname;
-
-    @Column(nullable = false)
-    private String lastname;
+@Table(name = "teachers")
+public class Teacher extends Person {
+    @OneToMany(mappedBy = "teacher")
+    private Set<Course> courses;
 
     public Teacher() {
+        super();
     }
 
-    public Teacher(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public Teacher(String firstName, String lastName) {
+        super(firstName, lastName);
     }
 
-    public static Teacher from(CreateTeacherDto createTeacherDto) {
-        return new Teacher(createTeacherDto.getFirstname(), createTeacherDto.getLastname());
+    public Set<Course> getCourses() {
+        return courses;
     }
 
-    public Long getId() {
-        return id;
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void addCourse(Course course) {
+        this.courses.add(course);
     }
 
     @Override
     public String toString() {
-        return "Teacher{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Teacher teacher)) return false;
-        return id.equals(teacher.id) && firstname.equals(teacher.firstname) && lastname.equals(teacher.lastname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstname, lastname);
+        return "Teacher{id=%s, firstName=%s, lastName=%s, courses=%s}".formatted(this.id, this.firstName, this.lastName,
+                this.courses);
     }
 }

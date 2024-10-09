@@ -1,75 +1,55 @@
 package com.renfo_backend.Renfo_backend.entity;
 
-import com.renfo_backend.Renfo_backend.dto.CreateStudentDto;
-import jakarta.persistence.*;
+import java.util.Set;
 
-import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
-public class Student {
-    private @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+@Table(name = "students")
+public class Student extends Person {
+    @ManyToOne
+    @JoinColumn(name = "grade_id", nullable = false)
+    private Grade grade;
 
-    @Column(nullable = false)
-    private String firstname;
-
-    @Column(nullable = false)
-    private String lastname;
+    @OneToMany(mappedBy = "student")
+    private Set<Registration> registrations;
 
     public Student() {
+        super();
     }
 
-    public Student(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public Student(String firstName, String lastName) {
+        super(firstName, lastName);
     }
 
-    public static Student from(CreateStudentDto createStudentDto) {
-        return new Student(createStudentDto.getFirstname(), createStudentDto.getLastname());
+    public Grade getGrade() {
+        return grade;
     }
 
-    public Long getId() {
-        return id;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Set<Registration> getRegistrations() {
+        return registrations;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public void setRegistrations(Set<Registration> registrations) {
+        this.registrations = registrations;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void addRegistration(Registration registration) {
+        this.registrations.add(registration);
     }
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Student student)) return false;
-        return id.equals(student.id) && firstname.equals(student.firstname) && lastname.equals(student.lastname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstname, lastname);
+        return "Student{id=%s, firstName=%s, lastName=%s, grade=%s, registrations=%s}".formatted(this.id,
+                this.firstName, this.lastName,
+                this.grade, this.registrations);
     }
 }
