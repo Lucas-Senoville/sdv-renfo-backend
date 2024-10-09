@@ -1,5 +1,6 @@
 package com.renfo_backend.Renfo_backend.entity;
 
+import com.renfo_backend.Renfo_backend.dto.CreateStudentDto;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -18,10 +19,13 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String firstname, String lastname) {
-        this.id = id;
+    public Student(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
+    }
+
+    public static Student from(CreateStudentDto createStudentDto) {
+        return new Student(createStudentDto.getFirstname(), createStudentDto.getLastname());
     }
 
     public Long getId() {
