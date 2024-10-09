@@ -12,8 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "lessons")
 public class Lesson implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -21,21 +23,20 @@ public class Lesson implements java.io.Serializable {
     @Column(nullable = false)
     private LocalDate day;
     @Column(nullable = false)
-    private LocalTime starTime;
+    private LocalTime startTime;
     @Column(nullable = false)
     private LocalTime endTime;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
+    @JoinColumn(nullable = false)
+    private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "grade_id", nullable = false)
-    private Grade grade;
+    public Lesson() {
+    }
 
-    public Lesson(LocalDate day, LocalTime starTime, LocalTime endTime) {
+    public Lesson(LocalDate day, LocalTime startTime, LocalTime endTime) {
         this.day = day;
-        this.starTime = starTime;
+        this.startTime = startTime;
         this.endTime = endTime;
     }
 
@@ -55,12 +56,12 @@ public class Lesson implements java.io.Serializable {
         this.day = day;
     }
 
-    public LocalTime getStarTime() {
-        return starTime;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
-    public void setStarTime(LocalTime starTime) {
-        this.starTime = starTime;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 
     public LocalTime getEndTime() {
@@ -71,20 +72,12 @@ public class Lesson implements java.io.Serializable {
         this.endTime = endDate;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public Course getCourse() {
+        return this.course;
     }
 
-    public void setSubject(Subject course) {
-        this.subject = course;
-    }
-
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override
@@ -101,19 +94,19 @@ public class Lesson implements java.io.Serializable {
 
         return Objects.equals(this.id, lecture.id) &&
                 Objects.equals(this.day, lecture.day) &&
-                Objects.equals(this.starTime, lecture.starTime) &&
+                Objects.equals(this.startTime, lecture.startTime) &&
                 Objects.equals(this.endTime, lecture.endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.day, this.starTime, this.endTime);
+        return Objects.hash(this.id, this.day, this.startTime, this.endTime);
     }
 
     @Override
     public String toString() {
-        return "Lecture{id=%d, day=%s, startTime=%s, endTime=%s, subject=%s, grade=%s}".formatted(this.id, this.day,
-                this.starTime.truncatedTo(ChronoUnit.SECONDS), this.endTime.truncatedTo(ChronoUnit.SECONDS),
-                this.subject, this.grade);
+        return "Lecture{id=%d, day=%s, startTime=%s, endTime=%s, course=%s}".formatted(this.id, this.day,
+                this.startTime.truncatedTo(ChronoUnit.SECONDS), this.endTime.truncatedTo(ChronoUnit.SECONDS),
+                this.course);
     }
 }

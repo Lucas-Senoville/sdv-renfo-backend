@@ -1,8 +1,8 @@
 package com.renfo_backend.Renfo_backend.entity;
 
 import java.time.Year;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.renfo_backend.converters.YearAttributeConverter;
 
@@ -13,9 +13,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
-public class Grade {
+@Table(name = "grades")
+public class Grade implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -26,10 +28,17 @@ public class Grade {
     private Year year;
 
     @OneToMany(mappedBy = "grade")
-    private List<Lesson> lectures;
+    private Set<Course> courses;
 
-    public Grade(String name) {
+    @OneToMany(mappedBy = "grade")
+    private Set<Student> students;
+
+    public Grade() {
+    }
+
+    public Grade(String name, Year year) {
         this.name = name;
+        this.year = year;
     }
 
     public Long getId() {
@@ -48,12 +57,36 @@ public class Grade {
         this.name = name;
     }
 
-    public List<Lesson> getLectures() {
-        return this.lectures;
+    public Year getYear() {
+        return year;
     }
 
-    public void setLectures(List<Lesson> lectures) {
-        this.lectures = lectures;
+    public void setYear(Year year) {
+        this.year = year;
+    }
+
+    public Set<Course> getCourses() {
+        return this.courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void addCourse(Course course) {
+        this.courses.add(course);
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
+    public void addStudent(Student student) {
+        this.students.add(student);
     }
 
     @Override
@@ -78,8 +111,8 @@ public class Grade {
 
     @Override
     public String toString() {
-        return "Grade{id=%d, year=%s, name=%s, lectures=%s}".formatted(
+        return "Grade{id=%d, year=%s, name=%s, courses=%s}".formatted(
                 this.id, this.year,
-                this.name, this.lectures);
+                this.name, this.courses);
     }
 }

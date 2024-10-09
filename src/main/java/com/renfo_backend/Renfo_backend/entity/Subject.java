@@ -1,7 +1,7 @@
 package com.renfo_backend.Renfo_backend.entity;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,8 +10,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "subjects")
 public class Subject implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,10 +22,12 @@ public class Subject implements java.io.Serializable {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
-    private List<Lesson> lessons;
+    private Set<Course> courses;
 
-    public Subject(Long id, String name) {
-        this.id = id;
+    public Subject() {
+    }
+
+    public Subject(String name) {
         this.name = name;
     }
 
@@ -43,12 +47,16 @@ public class Subject implements java.io.Serializable {
         this.name = name;
     }
 
-    public List<Lesson> getLessons() {
-        return this.lessons;
+    public Set<Course> getCourses() {
+        return this.courses;
     }
 
-    public void setLessons(List<Lesson> lessons) {
-        this.lessons = lessons;
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void addTeacherCourses(Course course) {
+        this.courses.add(course);
     }
 
     @Override
@@ -73,6 +81,6 @@ public class Subject implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Lesson{id=%d, name=%s, lessons=%s}".formatted(this.id, this.name, this.lessons);
+        return "Lesson{id=%d, name=%s, courses=%s}".formatted(this.id, this.name, this.courses);
     }
 }
