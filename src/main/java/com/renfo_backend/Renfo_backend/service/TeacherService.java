@@ -1,5 +1,6 @@
 package com.renfo_backend.Renfo_backend.service;
 
+import com.renfo_backend.Renfo_backend.dto.CreateTeacherDto;
 import com.renfo_backend.Renfo_backend.entity.Teacher;
 import com.renfo_backend.Renfo_backend.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ public class TeacherService {
         return teacherRepository.findAll();
     }
 
-    public Teacher addTeacher(Teacher teacher) {
+    public Teacher addTeacher(CreateTeacherDto createTeacherDto) {
+        Teacher teacher = Teacher.from(createTeacherDto);
         return teacherRepository.save(teacher);
     }
 

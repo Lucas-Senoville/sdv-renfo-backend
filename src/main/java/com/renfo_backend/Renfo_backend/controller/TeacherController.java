@@ -1,5 +1,6 @@
 package com.renfo_backend.Renfo_backend.controller;
 
+import com.renfo_backend.Renfo_backend.dto.CreateTeacherDto;
 import com.renfo_backend.Renfo_backend.entity.Teacher;
 import com.renfo_backend.Renfo_backend.service.TeacherService;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,8 @@ public class TeacherController {
     }
 
     @PostMapping
-    public Teacher addTeacher(@RequestBody Teacher teacher) {
-        return teacherService.addTeacher(teacher);
+    public Teacher addTeacher(@RequestBody CreateTeacherDto createTeacherDto) {
+        return teacherService.addTeacher(createTeacherDto);
     }
 
     @DeleteMapping("/{id}")
