@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.renfo_backend.Renfo_backend.dto.course.CourseDto;
+import com.renfo_backend.Renfo_backend.dto.course.CourseDtoMapper;
 import com.renfo_backend.Renfo_backend.dto.subject.SubjectDto;
 import com.renfo_backend.Renfo_backend.dto.subject.SubjectDtoMapper;
 import com.renfo_backend.Renfo_backend.dto.teacher.TeacherDto;
@@ -57,6 +59,12 @@ public class SubjectController {
     @GetMapping("/{id}/teachers")
     public Set<TeacherDto> getTeachers(@PathVariable Long id) {
         return courseRepository.findBySubjectId(id).stream().map(course -> TeacherDtoMapper.toDto(course.getTeacher()))
+                .collect(Collectors.toSet());
+    }
+
+    @GetMapping("/{id}/courses")
+    public Set<CourseDto> getCourses(@PathVariable Long id) {
+        return courseRepository.findBySubjectId(id).stream().map(CourseDtoMapper::toDto)
                 .collect(Collectors.toSet());
     }
 

@@ -47,8 +47,18 @@ public abstract class RegistrationDtoMapper {
         }
 
         Registration registration = toRegistration((RegistrationDto) registrationDto);
-        registration.setStudent(StudentDtoMapper.toStudent(registrationDto.getStudent()));
-        registration.setLesson(LessonDtoMapper.toLesson(registrationDto.getLesson()));
+
+        if (registrationDto instanceof RegistrationWithStudentDto) {
+            registration.setStudent(
+                    StudentDtoMapper.toStudent(((RegistrationWithStudentDto) registrationDto).getStudent()));
+        } else if (registrationDto instanceof RegistrationWithLessonDto) {
+            registration.setLesson(LessonDtoMapper.toLesson(((RegistrationWithLessonDto) registrationDto).getLesson()));
+        } else if (registrationDto instanceof FullRegistrationDto) {
+            FullRegistrationDto fullRegistrationDto = (FullRegistrationDto) registrationDto;
+
+            registration.setStudent(StudentDtoMapper.toStudent(fullRegistrationDto.getStudent()));
+            registration.setLesson(LessonDtoMapper.toLesson(fullRegistrationDto.getLesson()));
+        }
 
         return registration;
     }

@@ -22,7 +22,10 @@ public abstract class StudentDtoMapper {
     public static Student toStudent(StudentDto studentDto) {
         Student student = new Student(studentDto.getFirstName(), studentDto.getLastName());
         student.setId(studentDto.getId());
-        student.setGrade(GradeDtoMapper.toGrade(studentDto.getGrade()));
+
+        if (studentDto instanceof StudentWithGradeDto) {
+            student.setGrade(GradeDtoMapper.toGrade(((StudentWithGradeDto) studentDto).getGrade()));
+        }
 
         return student;
     }

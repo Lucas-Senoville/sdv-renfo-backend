@@ -2,9 +2,6 @@ package com.renfo_backend.Renfo_backend.dto.registration;
 
 import java.time.LocalDate;
 
-import com.renfo_backend.Renfo_backend.dto.lesson.LessonDto;
-import com.renfo_backend.Renfo_backend.dto.student.StudentDto;
-
 public class RegistrationDto {
     private Long id;
     private LocalDate date;
@@ -35,13 +32,5 @@ public class RegistrationDto {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public LessonDto getLesson() {
-        return null;
-    }
-
-    public StudentDto getStudent() {
-        return null;
     }
 }

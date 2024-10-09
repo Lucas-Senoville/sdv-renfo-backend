@@ -1,9 +1,5 @@
 package com.renfo_backend.Renfo_backend.dto.grade;
 
-import java.util.Set;
-
-import com.renfo_backend.Renfo_backend.dto.student.StudentDto;
-
 public class GradeDto {
     private Long id;
     private String name;
@@ -40,9 +36,5 @@ public class GradeDto {
 
     public void setYear(Integer year) {
         this.year = year;
-    }
-
-    public Set<StudentDto> getStudents() {
-        return Set.of();
     }
 }
