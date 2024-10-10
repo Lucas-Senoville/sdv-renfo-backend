@@ -3,6 +3,7 @@ package com.renfo_backend.Renfo_backend.entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,6 +32,9 @@ public class Lesson implements java.io.Serializable {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Course course;
+
+    @OneToMany
+    private List<Registration> registrations;
 
     public Lesson() {
     }
@@ -78,6 +83,18 @@ public class Lesson implements java.io.Serializable {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public List<Registration> getRegistrations() {
+        return registrations;
+    }
+
+    public void setRegistrations(List<Registration> registrations) {
+        this.registrations = registrations;
+    }
+
+    public void addRegistration(Registration registration) {
+        this.registrations.add(registration);
     }
 
     @Override

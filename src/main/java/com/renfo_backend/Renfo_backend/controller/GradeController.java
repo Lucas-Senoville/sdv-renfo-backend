@@ -22,12 +22,18 @@ import com.renfo_backend.Renfo_backend.dto.lesson.LessonDto;
 import com.renfo_backend.Renfo_backend.dto.lesson.LessonDtoMapper;
 import com.renfo_backend.Renfo_backend.dto.student.StudentDto;
 import com.renfo_backend.Renfo_backend.dto.student.StudentDtoMapper;
+import com.renfo_backend.Renfo_backend.dto.subject.SubjectDto;
+import com.renfo_backend.Renfo_backend.dto.subject.SubjectDtoMapper;
+import com.renfo_backend.Renfo_backend.dto.teacher.TeacherDto;
+import com.renfo_backend.Renfo_backend.dto.teacher.TeacherDtoMapper;
 import com.renfo_backend.Renfo_backend.entity.Grade;
 import com.renfo_backend.Renfo_backend.exceptions.GradeNotFoundException;
 import com.renfo_backend.Renfo_backend.repository.CourseRepository;
 import com.renfo_backend.Renfo_backend.repository.GradeRepository;
 import com.renfo_backend.Renfo_backend.repository.LessonRepository;
 import com.renfo_backend.Renfo_backend.repository.StudentRepository;
+import com.renfo_backend.Renfo_backend.repository.SubjectRepository;
+import com.renfo_backend.Renfo_backend.repository.TeacherRepository;
 
 @RestController
 @RequestMapping("/api/grades")
@@ -36,13 +42,18 @@ public class GradeController {
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
     private final LessonRepository lessonRepository;
+    private final SubjectRepository subjectRepository;
+    private final TeacherRepository teacherRepository;
 
     public GradeController(GradeRepository repository, CourseRepository courseRepository,
-            StudentRepository studentRepository, LessonRepository lessonRepository) {
+            StudentRepository studentRepository, LessonRepository lessonRepository,
+            SubjectRepository subjectRepository, TeacherRepository teacherRepository) {
         this.repository = repository;
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
         this.lessonRepository = lessonRepository;
+        this.subjectRepository = subjectRepository;
+        this.teacherRepository = teacherRepository;
     }
 
     @GetMapping
@@ -75,9 +86,19 @@ public class GradeController {
         return studentRepository.findByGradeId(id).stream().map(StudentDtoMapper::toDto).toList();
     }
 
-    @GetMapping("/{id}/lectures")
-    public List<LessonDto> getLectures(@PathVariable Long id) {
+    @GetMapping("/{id}/lessons")
+    public List<LessonDto> getLessons(@PathVariable Long id) {
         return lessonRepository.findByCourseGradeId(id).stream().map(LessonDtoMapper::toDto).toList();
+    }
+
+    @GetMapping("/{id}/subjects")
+    public List<SubjectDto> getSubjects(@PathVariable Long id) {
+        return subjectRepository.findByCoursesGradeId(id).stream().map(SubjectDtoMapper::toDto).toList();
+    }
+
+    @GetMapping("/{id}/teachers")
+    public List<TeacherDto> getTeachers(@PathVariable Long id) {
+        return teacherRepository.findByCoursesGradeId(id).stream().map(TeacherDtoMapper::toDto).toList();
     }
 
     @PutMapping("/{id}")

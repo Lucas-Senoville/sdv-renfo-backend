@@ -30,7 +30,7 @@ public class Course implements java.io.Serializable {
     private Grade grade;
 
     @OneToMany(mappedBy = "course")
-    private Set<Lesson> lectures;
+    private Set<Lesson> lessons;
 
     public Course() {
     }
@@ -67,16 +67,16 @@ public class Course implements java.io.Serializable {
         this.grade = grade;
     }
 
-    public Set<Lesson> getLectures() {
-        return this.lectures;
+    public Set<Lesson> getLessons() {
+        return this.lessons;
     }
 
-    public void setLectures(Set<Lesson> lectures) {
-        this.lectures = lectures;
+    public void setLessons(Set<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
     public void addLecture(Lesson lesson) {
-        this.lectures.add(lesson);
+        this.lessons.add(lesson);
     }
 
     @Override
@@ -101,8 +101,8 @@ public class Course implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "TeacherCourse{id=%d, teacher=%s, subject=%s, grade=%s, lectures=%s}".formatted(this.id, this.teacher,
+        return "TeacherCourse{id=%d, teacher=%s, subject=%s, grade=%s, lessons=%s}".formatted(this.id, this.teacher,
                 this.subject,
-                this.grade, this.lectures);
+                this.grade, this.lessons);
     }
 }

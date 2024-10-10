@@ -56,8 +56,8 @@ public class CourseController {
                 .orElseThrow(() -> new CourseNotFoundException(id));
     }
 
-    @GetMapping("/{id}/lectures")
-    public List<LessonDto> getLectures(@PathVariable Long id) {
+    @GetMapping("/{id}/lessons")
+    public List<LessonDto> getLessons(@PathVariable Long id) {
         return lessonRepository.findByCourseId(id).stream().map(LessonDtoMapper::toDto).toList();
     }
 
